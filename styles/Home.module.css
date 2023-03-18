@@ -1,0 +1,123 @@
+.container {
+  /* padding-bottom: 200px; */
+}
+/* ------------------------- */
+.input-container {
+  background: linear-gradient(
+    180deg,
+    rgba(14, 52, 59, 0.87) 100%,
+    rgba(11, 71, 88, 0.3567) 25.05%
+  );
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.input-container > h1 {
+  font-weight: 700;
+  font-size: 66px;
+  margin-bottom: 30px;
+}
+.input-container > p {
+  font-weight: 700;
+  font-size: 26px;
+  margin-bottom: 30px;
+}
+.input-container--inner {
+  width: 90vw;
+  max-width: 2000px;
+  margin: 0 auto;
+  display: flex;
+}
+.input-container--inner > button {
+  margin-left: 20px;
+  width: 250px;
+}
+/* --------------------------- */
+.style-selector-container {
+  padding: 20px 0;
+  background: rgba(255, 255, 255, 0.94);
+}
+.style-selector-container--inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  width: 90vw;
+  max-width: 2000px;
+  margin: 0 auto;
+}
+.style-selector-container--types {
+  /* border: 2px solid red; */
+}
+.style-selector-container--types > h1 {
+  margin-bottom: 15px;
+  margin-left: 5px;
+}
+.style-selector-container--types-inner {
+  display: flex;
+  flex-wrap: wrap;
+}
+.style-selector-type {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  height: fit-content;
+  width: fit-content;
+}
+.style-selector-type > img {
+  border: 5px solid #d9d9d9;
+  margin-bottom: 5px;
+  border-radius: 25px;
+}
+.style-selector-container--image {
+  height: 700px;
+  width: 700px;
+  position: relative;
+}
+.style-selector-container--image > img {
+  border-radius: 10px;
+  border: 5px solid #d9d9d9;
+}
+
+/* ---------------------------- */
+.artwork-container {
+  background: #000000;
+}
+.artwork-container--inner {
+  display: flex;
+  justify-content: space-around;
+  padding: 38px 0;
+  width: 90vw;
+  max-width: 2000px;
+  margin: 0 auto;
+}
+.artwork-container--inner > img {
+  height: 355px;
+  width: 355px;
+}
+
+.artwork-container--inner-textbox {
+  color: #fff;
+  width: 355px;
+}
+.artwork-container--inner-textbox > h1 {
+  padding-top: 10px;
+  padding-bottom: 50px;
+  font-size: 38px;
+  font-weight: 700;
+}
+.artwork-container--inner-textbox > p {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+  /* or 132% */
+
+  letter-spacing: -0.02em;
+}
