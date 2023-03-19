@@ -43,6 +43,19 @@ export default function Home() {
     }
     setLoading(false);
   };
+
+  const handleOnImageUpload = (value) => {
+    setShowSelector(true);
+    setLoading(true);
+    setResponseImage({
+      imageUrl: value,
+      message: "",
+      createdAt: new Date(),
+      apiVersion: 0,
+    });
+    setImageToShow(value);
+    setLoading(false);
+  };
   const onStyleSelect = async (type) => {
     if (type === "original") {
       setImageToShow(responseImage?.imageUrl);
@@ -94,6 +107,7 @@ export default function Home() {
           onClick={handleCreateClick}
           onChange={(v) => setInputValue(v)}
           setOptions={handleOptionChange}
+          handleOnImageUpload={handleOnImageUpload}
         />
         {showSelector && (
           <StyleSelector

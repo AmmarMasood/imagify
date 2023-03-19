@@ -64,8 +64,8 @@ function AdvanceOptionModal({ onComplete }) {
           <Input
             type="number"
             name="seed"
-            max={100000}
-            status={options.seed > 100000 ? "error" : ""}
+            max={10000000}
+            status={options.seed > 10000000 ? "error" : ""}
             min={1}
             value={options.seed}
             onChange={handleFieldChange}

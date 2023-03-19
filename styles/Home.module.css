@@ -32,6 +32,7 @@
   max-width: 2000px;
   margin: 0 auto;
   display: flex;
+  align-items: center;
 }
 .input-container--inner > button {
   margin-left: 20px;
