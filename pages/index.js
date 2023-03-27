@@ -22,6 +22,8 @@ export default function Home() {
   });
   const [responseImage, setResponseImage] = useState(null);
   const [responseImageAfterStyle, setResponseImageAfterStyle] = useState(null);
+  const [selectedStyle, setSelectedStyle] = useState(null);
+
   const [imageToShow, setImageToShow] = useState(null);
 
   const callModal = async (options) => {
@@ -56,12 +58,11 @@ export default function Home() {
     setImageToShow(value);
     setLoading(false);
   };
-  const onStyleSelect = async (type) => {
-    if (type === "original") {
-      setImageToShow(responseImage?.imageUrl);
-    } else if (responseImage) {
+  const onStyleSelect = async (type, label) => {
+    if (responseImage) {
       setLoading(true);
       setImageToShow(null);
+      setSelectedStyle(label);
       try {
         const res = await axios.post(`/api/produce-image`, {
           prompt: type,
@@ -108,12 +109,15 @@ export default function Home() {
           onChange={(v) => setInputValue(v)}
           setOptions={handleOptionChange}
           handleOnImageUpload={handleOnImageUpload}
+          showOriginal={() => setImageToShow(responseImage?.imageUrl)}
         />
         {showSelector && (
           <StyleSelector
             loading={loading}
             onSelect={onStyleSelect}
+            selected={selectedStyle}
             reponseImage={imageToShow}
+            handleOnImageUpload={handleOnImageUpload}
           />
         )}
         <ArtworkContainer />

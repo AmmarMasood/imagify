@@ -12,14 +12,9 @@ import StyleImage10 from "@/public/images/style-image-10.svg";
 import styles from "@/styles/Home.module.css";
 import Image from "next/image";
 import { Skeleton } from "antd";
+import ImageDisplayerUploader from "./ImageDisplayerUploader";
 
 const stylesTypes = [
-  {
-    img: StyleImage9,
-    value: "original",
-    label: "Original",
-  },
-  ,
   {
     img: StyleImage1,
     value: "turn it into drawing",
@@ -61,7 +56,13 @@ const stylesTypes = [
     label: "Anime",
   },
 ];
-function StyleSelector({ onSelect, reponseImage, loading }) {
+function StyleSelector({
+  onSelect,
+  selected,
+  reponseImage,
+  loading,
+  handleOnImageUpload,
+}) {
   return (
     <div className={styles["style-selector-container"]}>
       <div className={styles["style-selector-container--inner"]}>
@@ -70,9 +71,11 @@ function StyleSelector({ onSelect, reponseImage, loading }) {
           <div className={styles["style-selector-container--types-inner"]}>
             {stylesTypes.map((s, key) => (
               <div
-                className={styles["style-selector-type"]}
+                className={`${styles["style-selector-type"]} ${
+                  selected === s.label && styles["style-selector-type-selected"]
+                }`}
                 key={key}
-                onClick={() => onSelect(s.value)}
+                onClick={() => onSelect(s.value, s.label)}
               >
                 <Image src={s.img} alt={s.label} />
                 <p>{s.label}</p>
@@ -81,20 +84,11 @@ function StyleSelector({ onSelect, reponseImage, loading }) {
           </div>
         </div>
         <div className={styles["style-selector-container--image"]}>
-          {reponseImage ? (
-            <Image
-              src={reponseImage}
-              alt="stable-diffusion"
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
-            />
-          ) : (
-            <Skeleton.Image
-              active={loading}
-              style={{ height: "700px", width: "700px" }}
-            />
-          )}
+          <ImageDisplayerUploader
+            img={reponseImage}
+            loading={loading}
+            onImageUpload={handleOnImageUpload}
+          />
         </div>
       </div>
     </div>

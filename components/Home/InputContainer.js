@@ -2,14 +2,8 @@ import React from "react";
 import styles from "@/styles/Home.module.css";
 import { Button, Input } from "antd";
 import AdvanceOptionModal from "./AdvanceOptionModal";
-import ImageUploadButton from "./ImageUploadButton";
 
-function InputContainer({
-  onChange,
-  onClick,
-  setOptions,
-  handleOnImageUpload,
-}) {
+function InputContainer({ onChange, onClick, showOriginal, setOptions }) {
   return (
     <div className={styles["input-container"]}>
       <h1>Unlimited possiblities</h1>
@@ -22,10 +16,17 @@ function InputContainer({
           onChange={(e) => onChange(e.target.value)}
         />
         <Button type="primary" onClick={onClick} size="large">
-          Create
+          Create New
         </Button>
-        <span style={{ margin: "0 10px" }}>OR</span>
-        <ImageUploadButton handleOnImageUpload={handleOnImageUpload} />
+        <span style={{ marginLeft: "12px" }}>Or</span>
+        <Button
+          type="primary"
+          onClick={showOriginal}
+          size="middle"
+          style={{ width: "120px" }}
+        >
+          Show Original
+        </Button>
       </div>
 
       <div style={{ marginTop: "20px" }}>

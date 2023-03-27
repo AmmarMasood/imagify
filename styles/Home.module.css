@@ -72,10 +72,14 @@
   height: fit-content;
   width: fit-content;
 }
+
 .style-selector-type > img {
   border: 5px solid #d9d9d9;
   margin-bottom: 5px;
   border-radius: 25px;
+}
+.style-selector-type-selected > img {
+  border: 5px solid #1677ff !important;
 }
 .style-selector-container--image {
   height: 700px;
