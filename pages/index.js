@@ -12,7 +12,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
-  const [showSelector, setShowSelector] = useState(false);
+  const [showSelector, setShowSelector] = useState(true);
 
   const [options, setOptions] = useState({
     negativePrompt: "",
