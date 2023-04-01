@@ -17,43 +17,51 @@ import ImageDisplayerUploader from "./ImageDisplayerUploader";
 const stylesTypes = [
   {
     img: StyleImage1,
-    value: "turn it into drawing",
+    value: "make it drawing",
     label: "Drawing",
+    modelName: "img2img",
   },
   {
     img: StyleImage2,
-    value: "turn it into disney character",
+    value: "make it disney character",
     label: "Disney Character",
+    modelName: "pix2pix",
   },
   {
     img: StyleImage3,
-    value: "turn it into photo realistic",
+    value: "make it photo realistic",
     label: "Photorealistic",
+    modelName: "img2img",
   },
   {
     img: StyleImage4,
-    value: "turn it into neon",
+    value: "make it neon",
     label: "Neon",
+    modelName: "pix2pix",
   },
   {
     img: StyleImage5,
-    value: "turn it into comic landscape",
+    value: "make it comic landscape",
     label: "Comic Landscape",
+    modelName: "img2img",
   },
   {
     img: StyleImage6,
-    value: "turn it into natural landscape",
+    value: "make it natural landscape",
     label: "Natural Landscape",
+    modelName: "pix2pix",
   },
   {
     img: StyleImage7,
-    value: "turn it into digital art",
+    value: "make it digital art",
     label: "Digital Art",
+    modelName: "pix2pix",
   },
   {
     img: StyleImage8,
-    value: "turn it into anime",
+    value: "make it anime",
     label: "Anime",
+    modelName: "img2img",
   },
 ];
 function StyleSelector({
@@ -75,7 +83,7 @@ function StyleSelector({
                   selected === s.label && styles["style-selector-type-selected"]
                 }`}
                 key={key}
-                onClick={() => onSelect(s.value, s.label)}
+                onClick={() => onSelect(s.value, s.label, s.modelName)}
               >
                 <Image src={s.img} alt={s.label} />
                 <p>{s.label}</p>

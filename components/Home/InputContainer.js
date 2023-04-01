@@ -3,7 +3,14 @@ import styles from "@/styles/Home.module.css";
 import { Button, Input } from "antd";
 import AdvanceOptionModal from "./AdvanceOptionModal";
 
-function InputContainer({ onChange, onClick, showOriginal, setOptions }) {
+function InputContainer({
+  onChange,
+  onClick,
+  showOriginal,
+  setOptions,
+  imageToShow,
+  setMaskedImageUrl,
+}) {
   return (
     <div className={styles["input-container"]}>
       <h1>Unlimited possiblities</h1>
@@ -30,7 +37,11 @@ function InputContainer({ onChange, onClick, showOriginal, setOptions }) {
       </div>
 
       <div style={{ marginTop: "20px" }}>
-        <AdvanceOptionModal onComplete={setOptions} />
+        <AdvanceOptionModal
+          onComplete={setOptions}
+          imageToShow={imageToShow}
+          setMaskedImageUrl={setMaskedImageUrl}
+        />
       </div>
     </div>
   );

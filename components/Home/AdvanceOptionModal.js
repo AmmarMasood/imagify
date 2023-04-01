@@ -1,7 +1,8 @@
 import { Button, Input, Modal } from "antd";
 import React, { useState } from "react";
+import Inpainting from "./Inpainting";
 
-function AdvanceOptionModal({ onComplete }) {
+function AdvanceOptionModal({ onComplete, imageToShow, setMaskedImageUrl }) {
   const [openModal, setOpenModal] = useState(false);
   const [options, setOptions] = useState({
     negativePrompt: "",
@@ -71,7 +72,35 @@ function AdvanceOptionModal({ onComplete }) {
             onChange={handleFieldChange}
           />
         </div>
+        <div
+          style={{
+            marginTop: "20px",
+            marginBottom: "20px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Inpainting
+            imageToShow={imageToShow}
+            setMaskedImageUrl={setMaskedImageUrl}
+          />
+          <Button
+            onClick={() => {
+              setOptions({
+                ...options,
+                steps: Math.floor(Math.random() * 200),
+                cfg_scale: Math.floor(Math.random() * 20),
+                seed: Math.floor(Math.random() * 1000),
+              });
+            }}
+            type="primary"
+          >
+            Set random values
+          </Button>
+        </div>
       </Modal>
+
       <Button onClick={() => setOpenModal(true)}>Show Advance Options</Button>
     </div>
   );
