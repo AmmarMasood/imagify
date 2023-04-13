@@ -1,16 +1,10 @@
-import { Button, Input, Modal } from "antd";
+import { Button, Input, Modal, Collapse } from "antd";
 import React, { useState } from "react";
 import Inpainting from "./Inpainting";
+import shuffleIcon from "@/public/images/shuffle-icon.png";
+import Image from "next/image";
 
-function AdvanceOptionModal({ onComplete, imageToShow, setMaskedImageUrl }) {
-  const [openModal, setOpenModal] = useState(false);
-  const [options, setOptions] = useState({
-    negativePrompt: "",
-    steps: 25,
-    cfg_scale: 7.5,
-    seed: 42,
-  });
-
+function AdvanceOptionModal({ setOptions, options }) {
   const handleFieldChange = (e) => {
     setOptions((prev) => ({
       ...prev,
@@ -18,91 +12,76 @@ function AdvanceOptionModal({ onComplete, imageToShow, setMaskedImageUrl }) {
     }));
   };
   return (
-    <div>
-      <Modal
-        title="Advance Image Generation Options"
-        open={openModal}
-        onOk={() => {
-          setOpenModal(false);
-          onComplete(options);
-        }}
-        onCancel={() => setOpenModal(false)}
-      >
-        <div style={{ margin: "30px 0 10px 0" }}>
-          <label>Enter negative prompt</label>
-          <Input
-            name="negativePrompt"
-            value={options.negativePrompt}
-            onChange={handleFieldChange}
-          />
-        </div>
-        <div style={{ marginBottom: "10px 0" }}>
-          <label>Enter Steps</label>
-          <Input
-            type="number"
-            name="steps"
-            max={500}
-            status={options.steps > 500 ? "error" : ""}
-            min={1}
-            value={options.steps}
-            onChange={handleFieldChange}
-          />
-        </div>
-        <div style={{ marginBottom: "10px 0" }}>
-          <label>Enter CFG Scale</label>
-          <Input
-            type="number"
-            name="cfg_scale"
-            max={1000}
-            status={options.cfg_scale > 1000 ? "error" : ""}
-            min={1}
-            value={options.cfg_scale}
-            onChange={handleFieldChange}
-          />
-        </div>
-        <div style={{ marginBottom: "10px 0" }}>
-          <label>Enter Seeds</label>
-          <Input
-            type="number"
-            name="seed"
-            max={10000000}
-            status={options.seed > 10000000 ? "error" : ""}
-            min={1}
-            value={options.seed}
-            onChange={handleFieldChange}
-          />
-        </div>
-        <div
-          style={{
-            marginTop: "20px",
-            marginBottom: "20px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+    <Collapse defaultActiveKey={["0"]} ghost>
+      <Collapse.Panel header="Open advance settings" key="1">
+        <Button
+          style={{ float: "right" }}
+          onClick={() => {
+            setOptions({
+              ...options,
+              steps: Math.floor(Math.random() * 200),
+              cfg_scale: Math.floor(Math.random() * 20),
+              seed: Math.floor(Math.random() * 1000),
+            });
           }}
+          type="primary"
         >
-          <Inpainting
-            imageToShow={imageToShow}
-            setMaskedImageUrl={setMaskedImageUrl}
+          <Image
+            src={shuffleIcon}
+            width={16}
+            height={16}
+            style={{ marginBottom: "3px", marginRight: "5px" }}
           />
-          <Button
-            onClick={() => {
-              setOptions({
-                ...options,
-                steps: Math.floor(Math.random() * 200),
-                cfg_scale: Math.floor(Math.random() * 20),
-                seed: Math.floor(Math.random() * 1000),
-              });
-            }}
-            type="primary"
-          >
-            Set random values
-          </Button>
+          Randomize
+        </Button>
+        <div style={{ padding: "10px", marginTop: "10px" }}>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Enter negative prompt</label>
+            <Input
+              name="negativePrompt"
+              value={options.negativePrompt}
+              onChange={handleFieldChange}
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Enter Steps</label>
+            <Input
+              type="number"
+              name="steps"
+              max={500}
+              status={options.steps > 500 ? "error" : ""}
+              min={1}
+              value={options.steps}
+              onChange={handleFieldChange}
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Enter CFG Scale</label>
+            <Input
+              type="number"
+              name="cfg_scale"
+              max={1000}
+              status={options.cfg_scale > 1000 ? "error" : ""}
+              min={1}
+              value={options.cfg_scale}
+              onChange={handleFieldChange}
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Enter Seeds</label>
+            <Input
+              type="number"
+              name="seed"
+              max={10000000}
+              status={options.seed > 10000000 ? "error" : ""}
+              min={1}
+              value={options.seed}
+              onChange={handleFieldChange}
+            />
+          </div>
         </div>
-      </Modal>
-
-      <Button onClick={() => setOpenModal(true)}>Show Advance Options</Button>
-    </div>
+      </Collapse.Panel>
+    </Collapse>
   );
 }
 

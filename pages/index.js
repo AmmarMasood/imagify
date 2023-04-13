@@ -15,6 +15,9 @@ export default function Home() {
   const [inputValue, setInputValue] = useState("");
   const [showSelector, setShowSelector] = useState(true);
 
+  // inpainting
+  const [showInpainting, setShowInpainting] = useState(false);
+
   const [options, setOptions] = useState({
     negativePrompt: "",
     steps: 25,
@@ -55,12 +58,75 @@ export default function Home() {
       return false;
     }
   };
+  const generateImageWithMaskAndGetBase64String = async (options) => {
+    try {
+      const res = await axios.post(`/api/dream-studio`, options);
+      return res.data.imageUrl;
+    } catch (err) {
+      messageApi.open({
+        type: "error",
+        content:
+          "Error when generating a new image with mask, please try again.",
+      });
+      return false;
+    }
+  };
 
+  function resizeBase64Image(base64Image, width, height) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = base64Image;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        const newBase64Image = canvas.toDataURL();
+        resolve(newBase64Image);
+      };
+      img.onerror = reject;
+    });
+  }
+
+  const handleMaskImage = async () => {
+    if (inputValue) {
+      setLoading(true);
+
+      const value = {
+        prompt: inputValue,
+        negativePrompt: options.negativePrompt,
+        steps: options.steps,
+        cfg_scale: options.cfg_scale,
+        seed: options.seed,
+        mask: await resizeBase64Image(maskedImage, 768, 768),
+        image_url: await resizeBase64Image(currentImageBase64, 768, 768),
+      };
+
+      const base64String = await generateImageWithMaskAndGetBase64String(value);
+      if (base64String) {
+        setCurrentImageBase64(base64String);
+        setImageToShow(base64String);
+
+        const url = await uploadImageToServerAndGetLink(base64String);
+        if (url) {
+          setCurrentImageBaseLink(url);
+        }
+      }
+      setLoading(false);
+    } else {
+      messageApi.open({
+        type: "error",
+        content: "Please enter a prompt",
+      });
+    }
+  };
   const onClickCreateNew = async () => {
     if (inputValue) {
       setLoading(true);
       setImageToShow(null);
       setSelectedStyle(null);
+
       const value = {
         prompt: inputValue,
         endpoint: "dreamlike", //txt2img or img2img or pix2pix or controlnet
@@ -69,6 +135,8 @@ export default function Home() {
         steps: options.steps,
         cfg_scale: options.cfg_scale,
         seed: options.seed,
+        mask: maskedImage,
+        init_images: currentImageBase64,
       };
 
       const base64String = await generateImageAndGetBase64String(value);
@@ -83,6 +151,7 @@ export default function Home() {
       }
       setLoading(false);
     } else {
+      setMaskedImage("");
       messageApi.open({
         type: "error",
         content: "Please enter a prompt",
@@ -115,6 +184,7 @@ export default function Home() {
           modelName === "img2img" || modelName === "controlnet"
             ? currentImageBase64
             : currentImageBaseLink,
+        mask: maskedImage,
         negativePrompt: options.negativePrompt,
         steps: options.steps,
         cfg_scale: options.cfg_scale,
@@ -146,21 +216,28 @@ export default function Home() {
       {contextHolder}
       <div className={styles.container}>
         <InputContainer
-          onClick={onClickCreateNew}
+          onClick={() =>
+            showInpainting ? handleMaskImage() : onClickCreateNew()
+          }
           onChange={(v) => setInputValue(v)}
-          setOptions={handleOptionChange}
-          handleOnImageUpload={handleOnImageUpload}
           showOriginal={() => setImageToShow(currentImageBase64)}
-          imageToShow={imageToShow}
-          setMaskedImageUrl={setMaskedImage}
         />
         {showSelector && (
           <StyleSelector
             loading={loading}
             onSelect={onStyleSelect}
+            maskedImage={maskedImage}
             selected={selectedStyle}
             reponseImage={imageToShow}
             handleOnImageUpload={handleOnImageUpload}
+            // advance modal props
+            imageToShow={imageToShow}
+            setMaskedImageUrl={setMaskedImage}
+            setOptions={handleOptionChange}
+            options={options}
+            // inpainting
+            showInpainting={showInpainting}
+            setShowInpainting={setShowInpainting}
           />
         )}
         <ArtworkContainer />

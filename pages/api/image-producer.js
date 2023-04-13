@@ -32,8 +32,8 @@ const handleTxt2ImgRequest = async (body) => {
       seed: body.seed,
       // batch_size: 1,
       n_iter: 1,
-      // width: 768,
-      // height: 768,
+      width: 640,
+      height: 640,
       tiling: false,
     });
     return res;
@@ -53,6 +53,7 @@ const handleImg2ImgRequest = async (body) => {
       sampler_name: "DDIM",
       cfg_scale: body.cfg_scale,
       seed: body.seed,
+      mask: body.mask,
       //   negative_prompt: "cartoonish, low quality",
       //   steps: 25,
       //   sampler_name: "Euler a",
@@ -100,8 +101,38 @@ const handleDreamlikeRequest = async (body) => {
   }
 };
 
+const handleImg2ImgWithMask = async (body) => {
+  const modelKey = "922fb813-ba5e-4d20-b41c-2fc183720d69";
+  try {
+    const res = await banana.run(apiKey, modelKey, {
+      prompt: body.prompt,
+      init_image:
+        "https://res.cloudinary.com/dhpispmtz/image/upload/v1681336773/mh4ryu01nxf83q2ggbhx.jpg",
+      negative_prompt: "",
+      steps: body.steps,
+      sampler_name: "K_EULER_ANCESTRAL",
+      guidance_scale: body.cfg_scale,
+      // cfg_scale: body.cfg_scale,
+      // seed: body.seed,
+      mask: "https://res.cloudinary.com/dhpispmtz/image/upload/v1681336773/mh4ryu01nxf83q2ggbhx.jpg",
+      //   negative_prompt: "cartoonish, low quality",
+      //   steps: 25,
+      //   sampler_name: "Euler a",
+      //   cfg_scale: 7.5,
+      //   seed: 42,
+      //   batch_size: 1,
+      n_iter: 1,
+      //   width: 768,
+      //   height: 768,
+      //   tiling: false,
+    });
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const handleBananaDevRequest = async (value) => {
-  console.log("value: ", value.type);
   try {
     if (value.type === "txt2img") {
       const res = await handleTxt2ImgRequest(value);
@@ -137,6 +168,14 @@ const handleBananaDevRequest = async (value) => {
     }
     if (value.type === "dreamlike") {
       const res = await handleDreamlikeRequest(value);
+      if (res?.modelOutputs.length > 0) {
+        return res.modelOutputs[0].image_base64;
+      } else {
+        return false;
+      }
+    }
+    if (value.type === "img2img_mask") {
+      const res = await handleImg2ImgWithMask(value);
       if (res?.modelOutputs.length > 0) {
         return res.modelOutputs[0].image_base64;
       } else {
