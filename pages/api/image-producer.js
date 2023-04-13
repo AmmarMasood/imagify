@@ -1,10 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 const banana = require("@banana-dev/banana-dev");
 
-const apiKey = "6a2a5f57-105c-4a97-b382-cf8a37a50b75";
+const apiKey = process.env.BANANA_API_KEY;
 
 const handlePix2PixRequest = async (body) => {
-  const modelKey = "98a9659e-a063-4bc2-ae7e-519bf1392a69";
+  const modelKey = process.env.BANANA_PIX2PIX_KEY;
   try {
     const res = await banana.run(apiKey, modelKey, {
       prompt: body.prompt,
@@ -21,7 +21,7 @@ const handlePix2PixRequest = async (body) => {
 };
 
 const handleTxt2ImgRequest = async (body) => {
-  const modelKey = "826c839e-2ba3-4ba4-964e-3cea67d0bfba";
+  const modelKey = process.env.BANANA_TXT2IMG_KEY;
   try {
     const res = await banana.run(apiKey, modelKey, {
       prompt: body.prompt,
@@ -43,7 +43,7 @@ const handleTxt2ImgRequest = async (body) => {
 };
 
 const handleImg2ImgRequest = async (body) => {
-  const modelKey = "826c839e-2ba3-4ba4-964e-3cea67d0bfba";
+  const modelKey = process.env.BANANA_IMG2IMG_KEY;
   try {
     const res = await banana.run(apiKey, modelKey, {
       prompt: body.prompt,
@@ -72,7 +72,7 @@ const handleImg2ImgRequest = async (body) => {
 };
 
 const handleControlnetRequest = async (body) => {
-  const modelKey = "b0ad4ea0-e2af-4850-8ffb-4fc8100b7e69";
+  const modelKey = process.env.BANANA_CONTROLNET_KEY;
   try {
     const res = await banana.run(apiKey, modelKey, {
       prompt: body.prompt,
@@ -87,7 +87,7 @@ const handleControlnetRequest = async (body) => {
 };
 
 const handleDreamlikeRequest = async (body) => {
-  const modelKey = "30431a4f-a07b-4820-a3fd-c0a0ddcb25ea";
+  const modelKey = process.env.BANANA_DREAMLIKE_KEY;
   try {
     const res = await banana.run(apiKey, modelKey, {
       prompt: body.prompt,
@@ -102,7 +102,7 @@ const handleDreamlikeRequest = async (body) => {
 };
 
 const handleImg2ImgWithMask = async (body) => {
-  const modelKey = "922fb813-ba5e-4d20-b41c-2fc183720d69";
+  const modelKey = process.env.BANANA_IMG2IMGMASK_KEY;
   try {
     const res = await banana.run(apiKey, modelKey, {
       prompt: body.prompt,

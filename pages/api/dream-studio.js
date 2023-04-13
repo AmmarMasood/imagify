@@ -5,8 +5,7 @@ import stream from "stream";
 
 export default async function handler(req, res) {
   // Get the API key from the environment variable
-  const STABILITY_API_KEY =
-    "sk-ETSuU89cbLmvJGCwyyA5xknvXpkiF5glyhFBW3hhnu8b2wOT";
+  const STABILITY_API_KEY = process.env.DREAMSTUDIO_KEY;
 
   // Define the API endpoint
   const BASE_URL = "https://api.stability.ai";
